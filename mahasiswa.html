@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mahasiswa - siasad</title>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-left">
+    <div class="logo-badge">
+  <img src="img/logo.png" alt="Logo SIASAD" class="logo-img">
+</div>
+
+    <div>
+      <h1 class="brand-title">SIASAD</h1>
+      <p class="brand-sub">Dashboard Mahasiswa</p>
+    </div>
+  </div>
+  <nav class="topbar-menu">
+
+    <button class="btn-ghost" onclick="logout()">Keluar</button>
+  </nav>
+</header>
+
+<div class="app-shell">
+  <aside class="sidebar">
+    <div class="sidebar-profile">
+      <div class="avatar">🧑‍🎓</div>
+      <div>
+        <div class="sb-name" id="sbName">Mahasiswa</div>
+        <div class="sb-role">MAHASISWA</div>
+      </div>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-title">Menu Mahasiswa</div>
+      <button class="sb-item" onclick="showTab('dash')">🏠 Dashboard</button>
+      <button class="sb-item" onclick="showTab('krs')">📝 KRS</button>
+      <button class="sb-item" onclick="showTab('khs')">📄 KHS</button>
+      <button class="sb-item" onclick="showTab('jadwal')">📅 Jadwal</button>
+      <button class="sb-item" onclick="showTab('bayar')">💳 Pembayaran</button>
+      <button class="sb-item" onclick="showTab('profil')">🙍 Profil</button>
+    </div>
+
+    <div class="sidebar-footer">
+      <small>© 2025 enterprise</small>
+    </div>
+  </aside>
+
+  <main class="main-content">
+
+    <!-- DASHBOARD -->
+    <section id="tab-dash" class="page active">
+      <div class="page-head">
+        <h2>Dashboard Mahasiswa</h2>
+        <p>Ringkasan akademik semester berjalan.</p>
+      </div>
+
+      <div class="stat-grid">
+        <div class="stat-card"><div class="stat-value">2025/2026 Ganjil</div><div class="stat-text">Tahun Akademik</div></div>
+        <div class="stat-card"><div class="stat-value">18 SKS</div><div class="stat-text">KRS Diambil</div></div>
+        <div class="stat-card"><div class="stat-value">3.72</div><div class="stat-text">IPK</div></div>
+        <div class="stat-card"><div class="stat-value">Belum Lunas</div><div class="stat-text">Status UKT</div></div>
+      </div>
+
+      <div class="section">
+        <div class="section-head"><h3>Akses Cepat</h3><p>Fitur inti mahasiswa.</p></div>
+        <div class="menu-grid">
+          <div class="menu-card" onclick="showTab('krs')"><div class="menu-icon">📝</div><h3>KRS</h3><p>Registrasi MK</p></div>
+          <div class="menu-card" onclick="showTab('khs')"><div class="menu-icon">📄</div><h3>KHS</h3><p>Hasil studi</p></div>
+          <div class="menu-card" onclick="showTab('jadwal')"><div class="menu-icon">📅</div><h3>Jadwal</h3><p>Perkuliahan</p></div>
+          <div class="menu-card" onclick="showTab('bayar')"><div class="menu-icon">💳</div><h3>Pembayaran</h3><p>UKT Semester</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- KRS -->
+    <section id="tab-krs" class="page">
+      <div class="page-head">
+        <h2>KRS / Registrasi Mata Kuliah</h2>
+        <p>Dummy pengisian KRS.</p>
+      </div>
+
+      <div class="krs-summary">
+        <div><strong>Total SKS Dipilih:</strong> <span id="totalSKS">0</span> / 24</div>
+        <div class="progress-bar"><div class="progress-fill" id="progressSKS"></div></div>
+      </div>
+
+      <div class="table-responsive">
+        <table>
+          <thead>
+            <tr><th>Pilih</th><th>Kode</th><th>Mata Kuliah</th><th>SKS</th><th>Dosen</th><th>Jadwal</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><input type="checkbox" class="mk-check" data-sks="3" onchange="updateSKS()"></td>
+              <td>IF601</td><td>Pengembangan Web</td><td>3</td><td>Dr. Andi Wijaya</td><td>Senin 08:00-10:30</td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" class="mk-check" data-sks="3" onchange="updateSKS()"></td>
+              <td>IF602</td><td>Kecerdasan Buatan</td><td>3</td><td>Prof. Budi Santoso</td><td>Selasa 10:00-12:30</td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" class="mk-check" data-sks="3" onchange="updateSKS()"></td>
+              <td>IF603</td><td>Basis Data Lanjut</td><td>3</td><td>Dr. Citra Lestari</td><td>Rabu 13:00-15:30</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="action-row">
+        <button class="btn btn-primary" onclick="saveKRS()">Simpan KRS</button>
+      </div>
+    </section>
+
+    <!-- KHS -->
+    <section id="tab-khs" class="page">
+      <div class="page-head"><h2>KHS</h2><p>Rekap hasil studi dummy.</p></div>
+      <div class="table-responsive">
+        <table>
+          <thead><tr><th>Kode</th><th>Mata Kuliah</th><th>SKS</th><th>Nilai</th></tr></thead>
+          <tbody>
+            <tr><td>IF501</td><td>Algoritma & Struktur Data</td><td>3</td><td>A</td></tr>
+            <tr><td>IF502</td><td>Basis Data</td><td>3</td><td>A-</td></tr>
+            <tr><td>IF503</td><td>RPL</td><td>3</td><td>B+</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- JADWAL -->
+    <section id="tab-jadwal" class="page">
+      <div class="page-head"><h2>Jadwal Kuliah</h2><p>Dummy jadwal.</p></div>
+      <div class="table-responsive">
+        <table>
+          <thead><tr><th>Hari</th><th>Jam</th><th>Mata Kuliah</th><th>Ruang</th></tr></thead>
+          <tbody>
+            <tr><td>Senin</td><td>08:00-10:30</td><td>Pengembangan Web</td><td>F301</td></tr>
+            <tr><td>Selasa</td><td>10:00-12:30</td><td>Kecerdasan Buatan</td><td>F302</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- PEMBAYARAN -->
+    <section id="tab-bayar" class="page">
+      <div class="page-head"><h2>Pembayaran UKT</h2><p>Tagihan semester dummy.</p></div>
+      <div class="panel">
+        <p><strong>Tagihan Semester:</strong> Rp 6.500.000</p>
+        <p><strong>Status:</strong> <span class="text-danger">Belum Lunas</span></p>
+        <p class="muted">Silakan bayar via Virtual Account.</p>
+        <div class="action-row">
+          <button class="btn btn-secondary" onclick="showAlert('success','Pembayaran berhasil.')">Bayar Sekarang</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROFIL -->
+    <section id="tab-profil" class="page">
+      <div class="page-head"><h2>Profil Mahasiswa</h2></div>
+      <div class="panel grid-2">
+        <div><strong>Nama:</strong> Kenneth Kapantow</div>
+        <div><strong>NIM:</strong> 842023001</div>
+        <div><strong>Email:</strong> 842023001@student.uksw.edu</div>
+        <div><strong>Prodi:</strong> Bisnis Digital</div>
+      </div>
+    </section>
+
+    <div id="alertHost"></div>
+  </main>
+</div>
+
+<script>
+function guardRole(){
+  const r = localStorage.getItem("siasad_role");
+  if(r !== "mahasiswa") location.href="login.html";
+}
+guardRole();
+
+function showAlert(type, message) {
+  const host = document.getElementById("alertHost");
+  const old = host.querySelector(".alert.dynamic");
+  if(old) old.remove();
+  const el = document.createElement("div");
+  el.className = `alert alert-${type} dynamic`;
+  el.innerHTML = message;
+  host.appendChild(el);
+  setTimeout(()=>el.remove(), 3000);
+}
+
+function showTab(key){
+  document.querySelectorAll("main .page").forEach(p=>p.classList.remove("active"));
+  document.getElementById("tab-"+key).classList.add("active");
+  window.scrollTo(0,0);
+}
+
+function updateSKS(){
+  const checks = document.querySelectorAll(".mk-check");
+  let total=0;
+  checks.forEach(c=>{ if(c.checked) total+=Number(c.dataset.sks); });
+  totalSKS.textContent = total;
+  progressSKS.style.width = Math.min((total/24)*100,100) + "%";
+}
+
+function saveKRS(){
+  let total = Number(totalSKS.textContent);
+  if(total===0) return showAlert("danger","Belum ada MK dipilih.");
+  if(total>24) return showAlert("danger","SKS melebihi batas.");
+  showAlert("success",`KRS tersimpan. Total SKS: ${total}`);
+  showTab("dash");
+}
+
+function logout(){
+  localStorage.removeItem("siasad_role");
+  localStorage.removeItem("siasad_user");
+  location.href="login.html";
+}
+</script>
+
+</body>
+</html>

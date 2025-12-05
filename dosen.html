@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dosen - siasad Demo</title>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+
+<header class="topbar">
+    <div class="topbar-left">
+    <div class="logo-badge">
+  <img src="img/logo.png" alt="Logo SIASAD" class="logo-img">
+</div>
+    <div>
+      <h1 class="brand-title">SIASAD</h1>
+      <p class="brand-sub">Dashboard Dosen</p>
+    </div>
+  </div>
+  <nav class="topbar-menu">
+    <button class="btn-ghost" onclick="logout()">Keluar</button>
+  </nav>
+</header>
+
+<div class="app-shell">
+  <aside class="sidebar">
+    <div class="sidebar-profile">
+      <div class="avatar">🧑‍🏫</div>
+      <div>
+        <div class="sb-name">Dr. CHRIST RUDIANTO</div>
+        <div class="sb-role">DOSEN</div>
+      </div>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-title">Menu Dosen</div>
+      <button class="sb-item" onclick="showTab('dash')">🏠 Dashboard</button>
+      <button class="sb-item" onclick="showTab('kelas')">🧑‍🏫 Kelas Diampu</button>
+      <button class="sb-item" onclick="showTab('nilai')">✅ Input Nilai</button>
+      <button class="sb-item" onclick="showTab('presensi')">🗒️ Presensi</button>
+    </div>
+  </aside>
+
+  <main class="main-content">
+
+    <!-- DASH -->
+    <section id="tab-dash" class="page active">
+      <div class="page-head">
+        <h2>Dashboard Dosen</h2>
+        <p>Ringkasan kelas dan penilaian.</p>
+      </div>
+
+      <div class="stat-grid">
+        <div class="stat-card"><div class="stat-value">2</div><div class="stat-text">Kelas Diampu</div></div>
+        <div class="stat-card"><div class="stat-value">64</div><div class="stat-text">Mahasiswa Aktif</div></div>
+        <div class="stat-card"><div class="stat-value">3</div><div class="stat-text">Tugas Menunggu Nilai</div></div>
+      </div>
+    </section>
+
+    <!-- KELAS -->
+    <section id="tab-kelas" class="page">
+      <div class="page-head"><h2>Kelas Diampu</h2></div>
+      <div class="panel">
+        <ul class="list">
+          <li>IF601 – Pengembangan Web (Kelas A)</li>
+          <li>IF602 – Kecerdasan Buatan (Kelas B)</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- NILAI -->
+    <section id="tab-nilai" class="page">
+      <div class="page-head"><h2>Input Nilai</h2><p>Dummy input nilai.</p></div>
+      <div class="panel grid-2">
+        <div class="form-group">
+          <label>Mata Kuliah</label>
+          <select><option>IF601 – Pengembangan Web</option></select>
+        </div>
+        <div class="form-group">
+          <label>Mahasiswa</label>
+          <select><option>672021999 – Kenneth Kapantow</option></select>
+        </div>
+        <div class="form-group">
+          <label>Nilai</label>
+          <select><option>A</option><option>A-</option><option>B+</option></select>
+        </div>
+        <div class="form-group">
+          <label>&nbsp;</label>
+          <button class="btn btn-primary w-full" onclick="showAlert('success','Nilai tersimpan (demo).')">Simpan</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- PRESENSI -->
+    <section id="tab-presensi" class="page">
+      <div class="page-head"><h2>Presensi</h2></div>
+      <div class="panel">
+        <p>Presensi perkuliahan dummy. (Tanpa backend)</p>
+      </div>
+    </section>
+
+    <div id="alertHost"></div>
+  </main>
+</div>
+
+<script>
+function guardRole(){
+  const r = localStorage.getItem("siasad_role");
+  if(r !== "dosen") location.href="login.html";
+}
+guardRole();
+
+function showAlert(type, message) {
+  const host = document.getElementById("alertHost");
+  const old = host.querySelector(".alert.dynamic");
+  if(old) old.remove();
+  const el = document.createElement("div");
+  el.className = `alert alert-${type} dynamic`;
+  el.innerHTML = message;
+  host.appendChild(el);
+  setTimeout(()=>el.remove(), 3000);
+}
+
+function showTab(key){
+  document.querySelectorAll("main .page").forEach(p=>p.classList.remove("active"));
+  document.getElementById("tab-"+key).classList.add("active");
+  window.scrollTo(0,0);
+}
+
+function logout(){
+  localStorage.removeItem("siasad_role");
+  localStorage.removeItem("siasad_user");
+  location.href="login.html";
+}
+</script>
+
+</body>
+</html>

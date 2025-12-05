@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Formulir Pendaftaran - Calon Mahasiswa</title>
+  <link rel="stylesheet" href="style.css"/>
+  <style>
+    /* paper-like layout khusus halaman ini */
+    .paper-wrap{
+      max-width:900px;
+      margin:18px auto;
+      background:#fff;
+      border:1px solid var(--border);
+      border-radius:12px;
+      padding:22px;
+      box-shadow:var(--shadow-md);
+    }
+    .paper-head{
+      display:flex;
+      align-items:center;
+      gap:14px;
+      padding-bottom:12px;
+      border-bottom:2px solid var(--border);
+      margin-bottom:14px;
+    }
+    .paper-logo{
+      width:64px;height:64px;object-fit:contain;
+    }
+    .paper-title h2{
+      font-size:1.4rem;font-weight:900;color:var(--dark-2);
+    }
+    .paper-title p{color:var(--muted);margin-top:4px;}
+
+    .paper-meta{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:8px 14px;
+      background:#f8fafc;
+      border:1px dashed var(--border);
+      border-radius:10px;
+      padding:10px 12px;
+      margin-bottom:16px;
+      font-size:.95rem;
+    }
+
+    .paper-section{
+      margin-top:12px;
+      padding-top:10px;
+      border-top:1px dashed var(--border);
+    }
+    .paper-section h3{
+      font-size:1.1rem;font-weight:900;margin-bottom:8px;
+    }
+
+    .upload-hint{
+      font-size:.9rem;color:var(--muted);
+      margin-top:-2px;margin-bottom:8px;
+    }
+
+    .submit-row{
+      display:flex;gap:8px;justify-content:flex-end;
+      margin-top:14px;flex-wrap:wrap;
+    }
+  </style>
+</head>
+<body>
+
+<main class="main-content">
+
+  <section class="paper-wrap">
+
+    <!-- HEADER FORM -->
+    <div class="paper-head">
+      <img src="img/logo.png" alt="Logo SIASAD" class="paper-logo">
+      <div class="paper-title">
+        <h2>FORMULIR PENDAFTARAN MAHASISWA BARU</h2>
+        <p>UKSW — Tahun Akademik 2025/2026</p>
+      </div>
+    </div>
+
+    <!-- INFO REGISTRASI -->
+    <div class="paper-meta">
+      <div><strong>Nomor Pendaftaran:</strong> <span id="noDaftar">-</span></div>
+      <div><strong>Status:</strong> <span id="statusCalon" class="pill">-</span></div>
+      <div><strong>Nama Terdaftar:</strong> <span id="namaCalon">-</span></div>
+      <div class="muted">Lengkapi biodata & berkas lalu klik Submit.</div>
+    </div>
+
+    <!-- BIODATA -->
+    <div class="paper-section">
+      <h3>A. Biodata Calon Mahasiswa</h3>
+
+      <div class="grid-2">
+        <div class="form-group">
+          <label>Nama Lengkap</label>
+          <input type="text" id="fNama" placeholder="Nama lengkap">
+        </div>
+
+        <div class="form-group">
+          <label>NIK</label>
+          <input type="text" id="fNik" placeholder="NIK">
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" id="fEmail" placeholder="email@contoh.com">
+        </div>
+
+        <div class="form-group">
+          <label>No. HP / WhatsApp</label>
+          <input type="text" id="fTelp" placeholder="08xxxx">
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="form-group">
+          <label>Alamat</label>
+          <input type="text" id="fAlamat" placeholder="Alamat lengkap">
+        </div>
+
+        <div class="form-group">
+          <label>Asal Sekolah</label>
+          <input type="text" id="fSekolah" placeholder="SMA/SMK/MA asal">
+        </div>
+      </div>
+    </div>
+
+    <!-- PILIHAN PRODI -->
+    <div class="paper-section">
+      <h3>B. Pilihan Program Studi</h3>
+
+      <div class="grid-2">
+        <div class="form-group">
+          <label>Program Studi Pilihan</label>
+          <select id="fProdi">
+            <option value="">Pilih Prodi</option>
+            <option>Informatika</option>
+            <option>Sistem Informasi</option>
+            <option>Bisnis Digital</option>
+            <option>Teknik Komputer</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Jalur Masuk</label>
+          <select id="fJalur">
+            <option value="">Pilih Jalur</option>
+            <option>Reguler</option>
+            <option>Prestasi</option>
+            <option>KIP-K</option>
+            <option>Beasiswa Kampus</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- BERKAS -->
+    <div class="paper-section">
+      <h3>C. Kelengkapan Berkas (Checklist)</h3>
+      <p class="upload-hint">Centang berkas yang sudah kamu siapkan. Ini simulasi upload.</p>
+
+      <div class="grid-2">
+        <div class="form-group">
+          <label><input type="checkbox" id="bIjazah"> Ijazah / SKL</label>
+          <small class="muted">Status: <span id="sIjazah">Belum diupload</span></small>
+        </div>
+
+        <div class="form-group">
+          <label><input type="checkbox" id="bRapor"> Rapor</label>
+          <small class="muted">Status: <span id="sRapor">Belum diupload</span></small>
+        </div>
+
+        <div class="form-group">
+          <label><input type="checkbox" id="bKtp"> KTP / KK</label>
+          <small class="muted">Status: <span id="sKtp">Belum diupload</span></small>
+        </div>
+      </div>
+    </div>
+
+    <!-- SUBMIT -->
+    <div class="submit-row">
+      <a href="login.html" class="btn btn-danger">Kembali ke LOGIN</a>
+      <button class="btn btn-primary" onclick="submitForm()">Submit Formulir</button>
+    </div>
+
+  </section>
+
+  <div id="alertHost"></div>
+</main>
+
+<script>
+function showAlert(type, message) {
+  const host = document.getElementById("alertHost");
+  const old = host.querySelector(".alert.dynamic");
+  if(old) old.remove();
+  const el = document.createElement("div");
+  el.className = `alert alert-${type} dynamic`;
+  el.innerHTML = message;
+  host.appendChild(el);
+  setTimeout(()=>el.remove(), 3000);
+}
+
+function getList(){
+  return JSON.parse(localStorage.getItem("pmb_list") || "[]");
+}
+function setList(list){
+  localStorage.setItem("pmb_list", JSON.stringify(list));
+}
+
+function refreshBerkasLabel(){
+  sIjazah.textContent = bIjazah.checked ? "Sudah diupload" : "Belum diupload";
+  sRapor.textContent  = bRapor.checked  ? "Sudah diupload" : "Belum diupload";
+  sKtp.textContent    = bKtp.checked    ? "Sudah diupload" : "Belum diupload";
+}
+
+function loadData(){
+  const no = localStorage.getItem("pmb_no");
+  const list = getList();
+  const me = list.find(x => x.nomorDaftar === no);
+
+  noDaftar.textContent = no || "Belum Daftar";
+  namaCalon.textContent = me?.nama || localStorage.getItem("pmb_nama") || "-";
+  statusCalon.textContent = me?.status || localStorage.getItem("pmb_status") || "Menunggu Berkas";
+
+  // prefill biodata dari pmb_list (kalau ada)
+  fNama.value    = me?.nama || "";
+  fNik.value     = me?.nik || "";
+  fEmail.value   = me?.email || "";
+  fTelp.value    = me?.telp || "";
+  fProdi.value   = me?.prodi || "";
+  fJalur.value   = me?.jalur || "";
+  fAlamat.value  = me?.alamat || "";
+  fSekolah.value = me?.sekolah || "";
+
+  const b = me?.berkas || {};
+  bIjazah.checked = !!b.ijazah;
+  bRapor.checked  = !!b.rapor;
+  bKtp.checked    = !!b.ktp;
+
+  refreshBerkasLabel();
+}
+
+function submitForm(){
+  const no = localStorage.getItem("pmb_no");
+  if(!no) return showAlert("danger","Kamu belum daftar PMB.");
+
+  const list = getList();
+  const idx = list.findIndex(x => x.nomorDaftar === no);
+  if(idx === -1) return showAlert("danger","Data pendaftaran tidak ditemukan.");
+
+  const nama    = fNama.value.trim();
+  const nik     = fNik.value.trim();
+  const email   = fEmail.value.trim();
+  const telp    = fTelp.value.trim();
+  const alamat  = fAlamat.value.trim();
+  const sekolah = fSekolah.value.trim();
+  const prodi   = fProdi.value.trim();
+  const jalur   = fJalur.value.trim();
+
+  if(!nama || !nik || !email || !telp || !alamat || !sekolah || !prodi || !jalur){
+    return showAlert("danger","Semua field biodata wajib diisi.");
+  }
+
+  const ijazah = bIjazah.checked;
+  const rapor  = bRapor.checked;
+  const ktp    = bKtp.checked;
+
+  list[idx] = {
+    ...list[idx],
+    nama, nik, email, telp, alamat, sekolah, prodi, jalur,
+    berkas: { ijazah, rapor, ktp },
+    status: (ijazah && rapor && ktp) ? "Menunggu Verifikasi" : "Menunggu Berkas"
+  };
+
+  setList(list);
+
+  localStorage.setItem("pmb_nama", nama);
+  localStorage.setItem("pmb_status", list[idx].status);
+
+  showAlert("success","Formulir berhasil disubmit. Admin akan memverifikasi berkas.");
+  loadData();
+}
+
+function logout(){
+  localStorage.removeItem("siasad_role");
+  localStorage.removeItem("siasad_user");
+  location.href="login.html";
+}
+
+bIjazah.addEventListener("change", refreshBerkasLabel);
+bRapor.addEventListener("change", refreshBerkasLabel);
+bKtp.addEventListener("change", refreshBerkasLabel);
+
+window.addEventListener("DOMContentLoaded", loadData);
+</script>
+
+</body>
+</html>

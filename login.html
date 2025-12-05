@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login - SIASAD</title>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+
+<main class="main-content">
+  <section class="page active">
+    <div class="auth-wrap">
+      <div class="auth-card">
+        <img src="img/logo.png" alt="Logo SIASAD" class="login-logo">
+
+        <h2>Login SIASAD</h2>
+        <p class="muted">Pilih role untuk masuk ke dashboard</p>
+
+        <div class="form-group">
+          <label>Username / Email</label>
+          <input type="text" id="loginUsername" placeholder="Masukkan username atau email" value="kenneth"/>
+        </div>
+
+        <div class="form-group">
+          <label>Password</label>
+          <input type="password" id="loginPassword" placeholder="Masukkan password" value="password"/>
+        </div>
+
+        <div class="form-group">
+          <label>Login Sebagai</label>
+          <select id="loginRole">
+            <option value="mahasiswa" selected>Mahasiswa</option>
+            <option value="dosen">Dosen</option>
+            <option value="admin">Admin</option>
+          </select>
+        </div>
+
+        <button type="button" class="btn btn-primary w-full" onclick="login()">Login</button>
+
+        <div class="auth-footer" style="margin-top:12px;">
+          <p class="muted" style="margin-bottom:6px;">
+            Belum punya akun PMB?
+            <a href="calon.html">Daftar Mahasiswa Baru</a>
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <div id="alertHost"></div>
+</main>
+
+<script>
+function showAlert(type, message) {
+  const host = document.getElementById("alertHost");
+  const old = host.querySelector(".alert.dynamic");
+  if (old) old.remove();
+
+  const el = document.createElement("div");
+  el.className = `alert alert-${type} dynamic`;
+  el.innerHTML = message;
+  host.appendChild(el);
+  setTimeout(() => el.remove(), 3000);
+}
+
+function login(){
+  const u = document.getElementById("loginUsername").value.trim();
+  const p = document.getElementById("loginPassword").value.trim();
+  const r = document.getElementById("loginRole").value;
+
+  if(!u || !p || !r){
+    return showAlert("danger","Username, password, dan role wajib diisi.");
+  }
+
+  localStorage.setItem("siasad_role", r);
+  localStorage.setItem("siasad_user", u);
+
+  if(r==="mahasiswa") location.href="mahasiswa.html";
+  else if(r==="dosen") location.href="dosen.html";
+  else if(r==="admin") location.href="admin.html";
+  else if(r==="calon") location.href="calon.html";
+}
+</script>
+
+</body>
+</html>

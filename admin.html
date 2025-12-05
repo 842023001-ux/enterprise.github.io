@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin PMB - SIASAD Demo</title>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-left">
+    <div class="logo-badge">
+  <img src="img/logo.png" alt="Logo SIASAD" class="logo-img">
+</div>
+    <div>
+      <h1 class="brand-title">SIASAD</h1>
+      <p class="brand-sub">Admin PMB</p>
+    </div>
+  </div>
+  <nav class="topbar-menu">
+    <button class="btn-ghost" onclick="logout()">Keluar</button>
+  </nav>
+</header>
+
+<div class="app-shell">
+  <aside class="sidebar">
+    <div class="sidebar-profile">
+      <div class="avatar">🛠️</div>
+      <div>
+        <div class="sb-name">Admin PMB</div>
+        <div class="sb-role">ADMIN</div>
+      </div>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-title">Menu Admin</div>
+      <button class="sb-item" onclick="showTab('dash')">🏠 Notifikasi PMB</button>
+      <button class="sb-item" onclick="showTab('verif')">📌 Verifikasi Berkas</button>
+    </div>
+  </aside>
+
+  <main class="main-content">
+
+    <!-- DASH / NOTIF -->
+    <section id="tab-dash" class="page active">
+      <div class="page-head">
+        <h2>Notifikasi Pendaftar Baru</h2>
+        <p>Daftar pendaftar PMB terbaru</p>
+      </div>
+
+      <div class="stat-grid">
+        <div class="stat-card">
+          <div class="stat-value" id="statTotal">0</div>
+          <div class="stat-text">Total Pendaftar</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="statMenunggu">0</div>
+          <div class="stat-text">Menunggu Verifikasi</div>
+        </div>
+      </div>
+
+      <div class="panel" id="notifWrap" style="margin-top:12px;"></div>
+    </section>
+
+    <!-- VERIF -->
+    <section id="tab-verif" class="page">
+      <div class="page-head">
+        <h2>Verifikasi Dokumen PMB</h2>
+        <p>Cek berkas calon mahasiswa dan putuskan diterima/ditolak</p>
+      </div>
+
+      <div class="panel" id="verifWrap"></div>
+    </section>
+
+    <div id="alertHost"></div>
+  </main>
+</div>
+
+<script>
+function guardRole(){
+  const r = localStorage.getItem("siasad_role");
+  if(r !== "admin") location.href="login.html";
+}
+guardRole();
+
+function showAlert(type, message) {
+  const host = document.getElementById("alertHost");
+  const old = host.querySelector(".alert.dynamic");
+  if(old) old.remove();
+  const el = document.createElement("div");
+  el.className = `alert alert-${type} dynamic`;
+  el.innerHTML = message;
+  host.appendChild(el);
+  setTimeout(()=>el.remove(), 3000);
+}
+
+function showTab(key){
+  document.querySelectorAll("main .page").forEach(p=>p.classList.remove("active"));
+  document.getElementById("tab-"+key).classList.add("active");
+  window.scrollTo(0,0);
+}
+
+function loadPMB(){
+  const list = JSON.parse(localStorage.getItem("pmb_list") || "[]");
+  const notifWrap = document.getElementById("notifWrap");
+  const verifWrap = document.getElementById("verifWrap");
+
+  const menunggu = list.filter(x => x.status === "Menunggu Verifikasi").length;
+
+  document.getElementById("statTotal").textContent = list.length;
+  document.getElementById("statMenunggu").textContent = menunggu;
+
+  // NOTIF LIST
+  if(list.length === 0){
+    notifWrap.innerHTML = "<p class='muted'>Belum ada pendaftar baru.</p>";
+  } else {
+    notifWrap.innerHTML = `
+      <div class="table-responsive">
+        <table>
+          <thead>
+            <tr>
+              <th>No. Daftar</th>
+              <th>Nama</th>
+              <th>Prodi</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${list.slice().reverse().map(r=>`
+              <tr>
+                <td>${r.nomorDaftar}</td>
+                <td>${r.nama}</td>
+                <td>${r.prodi}</td>
+                <td><span class="pill">${r.status}</span></td>
+              </tr>
+            `).join("")}
+          </tbody>
+        </table>
+      </div>
+    `;
+  }
+
+  // VERIF LIST
+  if(list.length === 0){
+    verifWrap.innerHTML = "<p class='muted'>Belum ada pendaftar.</p>";
+  } else {
+    verifWrap.innerHTML = `
+      <div class="table-responsive">
+        <table>
+          <thead>
+            <tr>
+              <th>No. Daftar</th>
+              <th>Nama</th>
+              <th>Berkas</th>
+              <th>Status</th>
+              <th>Aksi</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${list.map((r,i)=>`
+              <tr>
+                <td>${r.nomorDaftar}</td>
+                <td>${r.nama}</td>
+                <td>
+                  <ul class="list" style="padding-left:16px;">
+                    <li>Ijazah: ${r.berkas?.ijazah ? "✅" : "❌"}</li>
+                    <li>Rapor: ${r.berkas?.rapor ? "✅" : "❌"}</li>
+                    <li>KTP/KK: ${r.berkas?.ktp ? "✅" : "❌"}</li>
+                  </ul>
+                </td>
+                <td><span class="pill">${r.status}</span></td>
+                <td style="display:flex;gap:6px;flex-wrap:wrap;">
+                  <button class="btn btn-secondary" onclick="setStatus(${i},'Lulus')">Terima</button>
+                  <button class="btn btn-danger" onclick="setStatus(${i},'Ditolak')">Tolak</button>
+                </td>
+              </tr>
+            `).join("")}
+          </tbody>
+        </table>
+      </div>
+      <p class="muted" style="margin-top:8px;">
+        Catatan: tombol hanya aktif secara logika dummy (tanpa backend).
+      </p>
+    `;
+  }
+}
+
+function setStatus(index, status){
+  const list = JSON.parse(localStorage.getItem("pmb_list") || "[]");
+  if(!list[index]) return;
+
+  // validasi sederhana: admin cuma boleh terima kalau berkas lengkap
+  if(status === "Lulus"){
+    const b = list[index].berkas;
+    if(!(b?.ijazah && b?.rapor && b?.ktp)){
+      return showAlert("danger","Berkas belum lengkap. Tidak bisa diterima.");
+    }
+  }
+
+  list[index].status = status;
+  localStorage.setItem("pmb_list", JSON.stringify(list));
+
+  // sinkron kalau pendaftar ini adalah calon yang sedang login
+  const lastNo = localStorage.getItem("pmb_no");
+  if(lastNo && list[index].nomorDaftar === lastNo){
+    localStorage.setItem("pmb_status", status);
+  }
+
+  showAlert("success",`Status ${list[index].nomorDaftar} => ${status} (demo).`);
+  loadPMB();
+}
+
+function logout(){
+  localStorage.removeItem("siasad_role");
+  localStorage.removeItem("siasad_user");
+  location.href="login.html";
+}
+
+window.addEventListener("DOMContentLoaded", loadPMB);
+</script>
+
+</body>
+</html>
