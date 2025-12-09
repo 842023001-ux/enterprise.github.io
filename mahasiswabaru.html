@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mahasiswa Baru - SIASAD</title>
+  <link rel="stylesheet" href="style.css"/>
+  <style>
+    /* paper-like layout untuk formulir PMB (adaptasi dari calon.html) */
+    .paper-wrap{
+      max-width:900px;
+      margin:18px auto;
+      background:#fff;
+      border:1px solid var(--border);
+      border-radius:12px;
+      padding:22px;
+      box-shadow:var(--shadow-md);
+    }
+    .paper-head{
+      display:flex;
+      align-items:center;
+      gap:14px;
+      padding-bottom:12px;
+      border-bottom:2px solid var(--border);
+      margin-bottom:14px;
+    }
+    .paper-logo{
+      width:64px;height:64px;object-fit:contain;
+    }
+    .paper-title h2{
+      font-size:1.4rem;font-weight:900;color:var(--dark-2);
+    }
+    .paper-title p{color:var(--muted);margin-top:4px;}
+
+    .paper-meta{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:8px 14px;
+      background:#f8fafc;
+      border:1px dashed var(--border);
+      border-radius:10px;
+      padding:10px 12px;
+      margin-bottom:16px;
+      font-size:.95rem;
+    }
+
+    .paper-section{
+      margin-top:12px;
+      padding-top:10px;
+      border-top:1px dashed var(--border);
+    }
+    .paper-section h3{
+      font-size:1.1rem;font-weight:900;margin-bottom:8px;
+    }
+
+    .upload-hint{
+      font-size:.9rem;color:var(--muted);
+      margin-top:-2px;margin-bottom:8px;
+    }
+
+    .submit-row{
+      display:flex;gap:8px;justify-content:flex-end;
+      margin-top:14px;flex-wrap:wrap;
+    }
+  </style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-left">
+    <div class="logo-badge">
+      <img src="img/logo.png" alt="Logo SIASAD" class="logo-img">
+    </div>
+    <div>
+      <h1 class="brand-title">SIASAD</h1>
+      <p class="brand-sub">Dashboard Mahasiswa Baru</p>
+    </div>
+  </div>
+  <nav class="topbar-menu">
+    <button class="btn-ghost" onclick="logout()">Keluar</button>
+  </nav>
+</header>
+
+<div class="app-shell">
+  <aside class="sidebar">
+    <div class="sidebar-profile">
+      <div class="avatar">🆕🧑‍🎓</div>
+      <div>
+        <div class="sb-name" id="sbName">Mahasiswa Baru</div>
+        <div class="sb-role">MAHASISWA BARU</div>
+      </div>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-title">Menu Mahasiswa Baru</div>
+      <button class="sb-item" onclick="showTab('dash')">🏠 Dashboard</button>
+
+      <button class="sb-item" onclick="showTab('status')">📌 Status Pendaftaran</button>
+      <button class="sb-item" onclick="showTab('panduan')">📚 Panduan Awal</button>
+    </div>
+
+    <div class="sidebar-footer">
+      <small>© 2025 enterprise</small>
+    </div>
+  </aside>
+
+  <main class="main-content">
+
+    <!-- DASHBOARD -->
+    <section id="tab-dash" class="page active">
+      <div class="page-head">
+        <h2>Dashboard Mahasiswa Baru</h2>
+        <p>Ringkasan proses PMB kamu.</p>
+      </div>
+
+      <div class="stat-grid">
+        <div class="stat-card">
+          <div class="stat-value" id="dashNo">9348726782</div>
+          <div class="stat-text">Nomor Pendaftaran</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="dashNama">Kenneth Kapantow</div>
+          <div class="stat-text">Nama Terdaftar</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="dashStatus">Diterima</div>
+          <div class="stat-text">Status PMB</div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-head">
+          <h3>Akses Cepat</h3>
+          <p>Lengkapi formulir dan pantau status.</p>
+        </div>
+
+        <div class="menu-grid">
+
+          <div class="menu-card" onclick="showTab('status')">
+            <div class="menu-icon">📌</div>
+            <h3>Status Pendaftaran</h3>
+            <p>Lihat progres verifikasi</p>
+          </div>
+          <div class="menu-card" onclick="showTab('panduan')">
+            <div class="menu-icon">📚</div>
+            <h3>Panduan Awal</h3>
+            <p>Langkah setelah mendaftar</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FORMULIR PMB (integrasi submitForm()) -->
+    
+
+    <!-- STATUS -->
+    <section id="tab-status" class="page">
+      <div class="page-head">
+        <h2>Status Pendaftaran</h2>
+        <p>Update status berdasarkan submit berkas.</p>
+      </div>
+
+      <div class="panel">
+        <div class="confirm-row"><strong>No. Pendaftaran</strong><span id="stNo">9348726782</span></div>
+        <div class="confirm-row"><strong>Nama</strong><span id="stNama">Kenneth Kapantow</span></div>
+        <div class="confirm-row"><strong>Prodi</strong><span id="stProdi">Bisnis Digital</span></div>
+        <div class="confirm-row"><strong>Jalur</strong><span id="stJalur">Raport</span></div>
+        <div class="confirm-row"><strong>Status</strong><span id="stStatus" class="pill">Mahasiswa Baru</span></div>
+      </div>
+
+      <div class="timeline">
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <div>
+            <h5>1) Daftar Akun PMB</h5>
+            <p>Buat akun dan dapatkan nomor pendaftaran.</p>
+          </div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <div>
+            <h5>2) Lengkapi Formulir & Berkas</h5>
+            <p>Isi biodata dan centang/upload berkas.</p>
+          </div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <div>
+            <h5>3) Verifikasi Admin</h5>
+            <p>Status berubah menjadi Lulus/Ditolak setelah diverifikasi.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PANDUAN -->
+    <section id="tab-panduan" class="page">
+      <div class="page-head">
+        <h2>Panduan Awal Mahasiswa Baru</h2>
+        <p>Yang perlu kamu lakukan setelah daftar.</p>
+      </div>
+
+      <div class="section-grid">
+        <div class="info-card">
+          <div class="info-icon">✅</div>
+          <h4>Lengkapi Berkas</h4>
+          <p>Pastikan ijazah/SKL, rapor, dan KTP/KK sudah siap.</p>
+        </div>
+        <div class="info-card">
+          <div class="info-icon">🕒</div>
+          <h4>Pantau Status</h4>
+          <p>Cek tab Status untuk melihat progres verifikasi admin.</p>
+        </div>
+        <div class="info-card">
+          <div class="info-icon">📞</div>
+          <h4>Kontak Panitia</h4>
+          <p>Jika ada kendala, hubungi panitia PMB kampus.</p>
+        </div>
+      </div>
+    </section>
+
+    <div id="alertHost"></div>
+  </main>
+</div>
+
+<script>
+/* ========== GUARD ROLE (integrasi login.html) ==========
+   Login.html saat ini set role ke mahasiswa/dosen/admin.
+   Untuk mahasiswa baru, kita izinkan role "calon" ATAU "mahasiswa".
+   Kalau mau khusus "mahasiswabaru", tinggal tambahkan role itu di login.html.
+*/
+
+
+/* ========== ALERT UTILS ========== */
+function showAlert(type, message) {
+  const host = document.getElementById("alertHost");
+  const old = host.querySelector(".alert.dynamic");
+  if(old) old.remove();
+  const el = document.createElement("div");
+  el.className = `alert alert-${type} dynamic`;
+  el.innerHTML = message;
+  host.appendChild(el);
+  setTimeout(()=>el.remove(), 3000);
+}
+
+/* ========== NAV/TABS ========== */
+function showTab(key){
+  document.querySelectorAll("main .page").forEach(p=>p.classList.remove("active"));
+  document.getElementById("tab-"+key).classList.add("active");
+  window.scrollTo(0,0);
+}
+
+/* ========== STORAGE HELPERS (adaptasi dari calon.html) ========== */
+function getList(){
+  return JSON.parse(localStorage.getItem("pmb_list") || "[]");
+}
+function setList(list){
+  localStorage.setItem("pmb_list", JSON.stringify(list));
+}
+
+/* ========== FORM LOGIC (submitForm() integrasi) ========== */
+function refreshBerkasLabel(){
+  sIjazah.textContent = bIjazah.checked ? "Sudah diupload" : "Belum diupload";
+  sRapor.textContent  = bRapor.checked  ? "Sudah diupload" : "Belum diupload";
+  sKtp.textContent    = bKtp.checked    ? "Sudah diupload" : "Belum diupload";
+}
+
+function loadData(){
+  const no = localStorage.getItem("pmb_no");
+  const list = getList();
+  const me = list.find(x => x.nomorDaftar === no);
+
+  // sidebar/dashboard
+  sbName.textContent = me?.nama || localStorage.getItem("pmb_nama") || "Mahasiswa Baru";
+  dashNo.textContent = no || "-";
+  dashNama.textContent = me?.nama || localStorage.getItem("pmb_nama") || "-";
+  dashStatus.textContent = me?.status || localStorage.getItem("pmb_status") || "-";
+
+  // header formulir
+  noDaftar.textContent = no || "Belum Daftar";
+  namaCalon.textContent = me?.nama || localStorage.getItem("pmb_nama") || "-";
+  statusCalon.textContent = me?.status || localStorage.getItem("pmb_status") || "Menunggu Berkas";
+
+  // prefill biodata
+  fNama.value    = me?.nama || "";
+  fNik.value     = me?.nik || "";
+  fEmail.value   = me?.email || "";
+  fTelp.value    = me?.telp || "";
+  fProdi.value   = me?.prodi || "";
+  fJalur.value   = me?.jalur || "";
+  fAlamat.value  = me?.alamat || "";
+  fSekolah.value = me?.sekolah || "";
+
+  const b = me?.berkas || {};
+  bIjazah.checked = !!b.ijazah;
+  bRapor.checked  = !!b.rapor;
+  bKtp.checked    = !!b.ktp;
+
+  refreshBerkasLabel();
+
+  // tab status
+  stNo.textContent = no || "-";
+  stNama.textContent = me?.nama || localStorage.getItem("pmb_nama") || "-";
+  stProdi.textContent = me?.prodi || "-";
+  stJalur.textContent = me?.jalur || "-";
+  stStatus.textContent = me?.status || localStorage.getItem("pmb_status") || "-";
+}
+
+function submitForm(){
+  const no = localStorage.getItem("pmb_no");
+  if(!no) return showAlert("danger","Kamu belum daftar PMB.");
+
+  const list = getList();
+  const idx = list.findIndex(x => x.nomorDaftar === no);
+  if(idx === -1) return showAlert("danger","Data pendaftaran tidak ditemukan.");
+
+  const nama    = fNama.value.trim();
+  const nik     = fNik.value.trim();
+  const email   = fEmail.value.trim();
+  const telp    = fTelp.value.trim();
+  const alamat  = fAlamat.value.trim();
+  const sekolah = fSekolah.value.trim();
+  const prodi   = fProdi.value.trim();
+  const jalur   = fJalur.value.trim();
+
+  if(!nama || !nik || !email || !telp || !alamat || !sekolah || !prodi || !jalur){
+    return showAlert("danger","Semua field biodata wajib diisi.");
+  }
+
+  const ijazah = bIjazah.checked;
+  const rapor  = bRapor.checked;
+  const ktp    = bKtp.checked;
+
+  list[idx] = {
+    ...list[idx],
+    nama, nik, email, telp, alamat, sekolah, prodi, jalur,
+    berkas: { ijazah, rapor, ktp },
+    status: (ijazah && rapor && ktp) ? "Menunggu Verifikasi" : "Menunggu Berkas"
+  };
+
+  setList(list);
+
+  localStorage.setItem("pmb_nama", nama);
+  localStorage.setItem("pmb_status", list[idx].status);
+
+  showAlert("success","Formulir berhasil disubmit. Admin akan memverifikasi berkas.");
+  loadData();
+  showTab("status");
+}
+
+/* ========== LOGOUT ========== */
+function logout(){
+  localStorage.removeItem("siasad_role");
+  localStorage.removeItem("siasad_user");
+  location.href="login.html";
+}
+
+bIjazah.addEventListener("change", refreshBerkasLabel);
+bRapor.addEventListener("change", refreshBerkasLabel);
+bKtp.addEventListener("change", refreshBerkasLabel);
+window.addEventListener("DOMContentLoaded", loadData);
+</script>
+
+</body>
+</html>
